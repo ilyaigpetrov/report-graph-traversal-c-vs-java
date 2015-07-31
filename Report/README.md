@@ -290,25 +290,25 @@ Java is easier to prototype in and thus to write startups.
 Java outperforms C in overwhelming majority of aspects. But if you have to write high-performance code, e.g., system driver, or independent project then Java is no choice in favor of C.
 The followig table summarizes comparison.
 
-\+ means "wins"
-\- means "looses"
-| Characterisitc    | Java  | C     
-| ----------------  |:-----:|:-----:
-| Time performance	| -		| +
-| Memory Consumption| -		| +
-| Readability		| +		| -
-| Writability		| +		| -
-| Reliability		| +		| -
-| Learnability		| +		| -
-| Portability		| +		| -
-| Simplicity		| +		| -
-| Reusability		| +		| -
-| Paradigms Support	| +		| -
-| Maintainability	| +		| -
-| Cost				| +		| +
-| Abstraction		| +		| -
-| Well Definedness	| +		| +
-| Dependability		| -		| +
+\+ means "wins"  
+\- means "looses"  
+| Characterisitc    | Java  | C       
+| ----------------  |:-----:|:-----:  
+| Time performance	| -		| +  
+| Memory Consumption| -		| +  
+| Readability		| +		| -  
+| Writability		| +		| -  
+| Reliability		| +		| -  
+| Learnability		| +		| -  
+| Portability		| +		| -  
+| Simplicity		| +		| -  
+| Reusability		| +		| -  
+| Paradigms Support	| +		| -  
+| Maintainability	| +		| -  
+| Cost				| +		| +  
+| Abstraction		| +		| -  
+| Well Definedness	| +		| +  
+| Dependability		| -		| +  
 
 ### Some materials used.
 [Principles of Programming Language, G. NARAYANAMMA INSTITUTE OF TECHNOLOGY & SCIENCE](http://www.slideshare.net/blackdevilvikas/ptinciples-of-programming-languages).
