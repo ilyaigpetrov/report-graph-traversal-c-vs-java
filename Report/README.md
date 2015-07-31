@@ -66,10 +66,10 @@ GraphTraversalJava
 +-- Graph.java
 +-- Profiler.java
 +-- RecursiveDescentParser
-¦   +-- AST.java // Abstract Syntax Tree
-¦   +-- ExpLexer.java
-¦   +-- ExpParser.java
-¦   L-- Token.java
+Â¦   +-- AST.java // Abstract Syntax Tree
+Â¦   +-- ExpLexer.java
+Â¦   +-- ExpParser.java
+Â¦   L-- Token.java
 +-- Tool.java
 L-- TraverseAlgorithm.java // Base class for algorithms
 ```
@@ -255,7 +255,7 @@ If you are interested in language specifications -- official C specs are paid fo
 Abstraction is the main principle of OPP and Java adheres to it vividly. Java works at a higher level of abstraction by the penalty of performance. C lacks Garbage collection and forces programmer to work on the lower level.
 
 #### Well Definedness
-> Well-definedness – The completeness and precision of the language‘s official definition.
+> Well-definedness Â– The completeness and precision of the languageÂ‘s official definition.
 
 Both languages are well defined (e.g., both has specifications, both defined by formal grammar).
 Both offer verbose documentation though I personally find Java more well documented than C.
