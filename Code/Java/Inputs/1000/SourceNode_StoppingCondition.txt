@@ -1,0 +1,3 @@
+SourceNode#                  Stopping Condition
+810             " City== NewMarlene   &&  pop == 47182047  &&  elevation > = 8.0  "
+

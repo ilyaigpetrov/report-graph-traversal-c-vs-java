@@ -1,0 +1,4 @@
+-XX:+AggressiveOpts -XX:+AggressiveHeap -XX:+UseParallelGC -server -d64
+INPUT> 72582ms
+OUTPUT> 87ms
+ALGO:BFS> 262ms

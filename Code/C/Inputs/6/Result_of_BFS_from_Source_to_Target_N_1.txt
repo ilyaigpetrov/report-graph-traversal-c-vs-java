@@ -1,0 +1,1 @@
+(City: Vancouver, Pop: 603502, Elevation: 152.1)

@@ -1,0 +1,6 @@
+(City: Vancouver, Pop: 603502, Elevation: 152.1)
+(City: Winnipeg, Pop: 663617, Elevation: 230.2)
+(City: Toronto, Pop: 2615060, Elevation: 209.0)
+(City: Ottawa, Pop: 883391, Elevation: 70.5)
+(City: Montreal, Pop: 1649519, Elevation: 233.0)
+(City: Quebec City, Pop: 516622, Elevation: 98.0)

@@ -1,0 +1,2 @@
+SourceNode#           Target/stopping Condition
+   1                  "pop. > 500000 and elevation > = 150  and elevation < = 200"

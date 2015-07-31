@@ -1,0 +1,3 @@
+Node#               Stopping Condition
+65          " City== SouthAva   &&  pop == 20425427   &&  elevation < = 1074.0 "
+ 

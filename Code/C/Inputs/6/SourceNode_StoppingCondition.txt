@@ -1,0 +1,2 @@
+SourceNode#           Target/stopping Condition
+   6                        "city == Vancouver"

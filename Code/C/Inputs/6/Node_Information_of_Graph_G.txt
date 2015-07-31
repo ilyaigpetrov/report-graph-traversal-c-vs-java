@@ -1,0 +1,9 @@
+Node#	CityName	Population(Person)	HighestElevation(m)
+
+1	Montreal	1649519			233.01
+2	Quebec City	516622			98
+3	Ottawa	        883391			70.5
+4	Toronto 	2615060			209
+5	Winnipeg	663617			230.23
+6	Vancouver	603502			152.06
+
