@@ -1,5 +1,3 @@
-This was a freelance task which I completed and didn't get paid.
-
 The Task
 --------
 1. Write DFS/BFS implementations in C and Java with search expression parsing (I've used Recursive Descent Parser in Java).
