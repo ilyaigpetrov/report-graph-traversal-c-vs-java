@@ -292,6 +292,7 @@ The followig table summarizes comparison.
 
 \+ means "wins"  
 \- means "looses"  
+
 | Characterisitc    | Java  | C       
 | ----------------  |:-----:|:-----:  
 | Time performance	| -		| +  
