@@ -46,7 +46,7 @@ C# offers strict type system and compile-time error checks and in JavaScript you
 C# has classical inheritance model, EcmaScript6 classes offer new syntax for the same prototypical inheritance (which is claimed to be not so powerful).  
 
 However some developers are in fear of .NET software patent system, e.g.:  
-- [Why free software shouldn't depend on Mono or C#, Richard Stallman](https://www.fsf.org/news/dont-depend-on-mono),  
+- [Why free software shouldn't depend on Mono or C#, Richard Stallman](https://www.fsf.org/news/dont-depend-on-mono)  
 - [Comparing Java to .Net](http://en.swpat.org/wiki/Comparing_Java_to_.Net_and_C-sharp).  
 
 I don't see any threat from JavaScript software patents.
@@ -161,7 +161,7 @@ The followig table summarizes comparison.
 | Flexibility		     | +	 	 | -  
 
 
-### Some materials used
+### Some Materials Used
 [To Node.js Or Not To Node.js](http://www.haneycodes.net/to-node-js-or-not-to-node-js/)  
 [Is Node.js better than ASP.NET?](https://thomasbandt.com/is-nodejs-better-than-aspnet)  
 [The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
