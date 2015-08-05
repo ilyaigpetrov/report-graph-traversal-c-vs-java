@@ -151,7 +151,7 @@ The followig table summarizes comparison.
 | ----------------   |:------:   |:-------:  
 | IO Performance	   | +		 | -  
 | Computational Perf.| -		 | +  
-| Asynchronous pr-ng | required	 | possible  
+| Asynchronous Programming | required	 | possible  
 | Languages		       | JS looses | C# wins  
 | Portability		     | +		 | -  
 | Reliability		     | -		 | +  
