@@ -144,20 +144,21 @@ As Node.js is more portable its community is wider. JavaScript is also more ubiq
 Java outperforms C in overwhelming majority of aspects. But if you have to write high-performance code, e.g., system driver, or independent project then Java is no choice in favor of C.  
 The followig table summarizes comparison.
 
-\+ means "wins"
-\- means "looses"
+\+ means "wins"  
+\- means "looses"  
+
 | Characterisitc     | Node.js   | ASP.NET  
 | ----------------   |:------:   |:-------:  
-| IO Performance	 | +		 | -  
+| IO Performance	   | +		 | -  
 | Computational Perf.| -		 | +  
 | Asynchronous pr-ng | required	 | possible  
-| Languages		     | JS looses | C# wins  
-| Portability		 | +		 | -  
-| Reliability		 | -		 | +  
-| Ecosystem		 	 | +		 | -  
-| Learnability		 | +	 	 | -  
-| Simplicity		 | +	 	 | -  
-| Flexibility		 | +	 	 | -  
+| Languages		       | JS looses | C# wins  
+| Portability		     | +		 | -  
+| Reliability		     | -		 | +  
+| Ecosystem		 	     | +		 | -  
+| Learnability		   | +	 	 | -  
+| Simplicity		     | +	 	 | -  
+| Flexibility		     | +	 	 | -  
 
 
 ### Some materials used
