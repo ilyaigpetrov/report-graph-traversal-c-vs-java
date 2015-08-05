@@ -133,18 +133,18 @@ The followig table summarizes comparison.
 
 \+ means "wins"
 \- means "looses"
-| Characterisitc     | Node.js   | ASP.NET
-| ----------------   |:------:   |:-------:
-| IO Performance	 | +		 | -
-| Computational Perf.| -		 | +
-| Asynchronous pr-ng | required	 | possible
-| Languages		     | JS looses | C# wins
-| Portability		 | +		 | -
-| Reliability		 | -		 | +
-| Ecosystem		 	 | +		 | -
-| Learnability		 | +	 	 | -
-| Simplicity		 | +	 	 | -
-| Flexibility		 | +	 	 | -
+| Characterisitc     | Node.js   | ASP.NET  
+| ----------------   |:------:   |:-------:  
+| IO Performance	 | +		 | -  
+| Computational Perf.| -		 | +  
+| Asynchronous pr-ng | required	 | possible  
+| Languages		     | JS looses | C# wins  
+| Portability		 | +		 | -  
+| Reliability		 | -		 | +  
+| Ecosystem		 	 | +		 | -  
+| Learnability		 | +	 	 | -  
+| Simplicity		 | +	 	 | -  
+| Flexibility		 | +	 	 | -  
 
 
 ### Some materials used
