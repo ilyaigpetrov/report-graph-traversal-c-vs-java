@@ -12,14 +12,17 @@ These frameworks has different goals, may be used together and will be merged in
 
 The following diagrams present ASP.NET architecture in relation to other frameworks.
 
+Diagram of ASP.NET 5 by [Scott Hanselman](http://www.hanselman.com/blog/ReleasedASPNETAndWebTools20122InContext.aspx), 2013:  
 ![ASP.NET Architecture by Scott Hanselman, 2013](http://www.redmond-recap.com/wp-content/uploads/2013/08/image_thumb.png)  
-Diagram of ASP.NET 5 by [Scott Hanselman](http://www.hanselman.com/blog/ReleasedASPNETAndWebTools20122InContext.aspx), 2013
 
+
+Diagram of ASP.NET 4.5 by [Shailendra Chauhan](http://www.dotnet-tricks.com/Tutorial/aspnet/SaJc221013-Understanding-Detailed-Architecture-of-ASP.NET-4.5.html), 2013:  
 [![Architecture of ASP.NET 4.5, 2013](http://www.dotnet-tricks.com/Content/images/aspnet/asp.net4.5architecture.png)](http://www.dotnet-tricks.com/Tutorial/aspnet/SaJc221013-Understanding-Detailed-Architecture-of-ASP.NET-4.5.html)  
-Diagram of ASP.NET 4.5 by [Shailendra Chauhan](http://www.dotnet-tricks.com/Tutorial/aspnet/SaJc221013-Understanding-Detailed-Architecture-of-ASP.NET-4.5.html), 2013
 
+
+Diagram of ASP.NET 5 by [Jouni Heikniemi](http://www.redmond-recap.com/2013/08/22/state-of-asp-net-part-2-one-asp-net/), 2013:  
 [![Architecture of ASP.NET, 2013](http://www.redmond-recap.com/wp-content/uploads/2013/08/AspnetCoreStack_thumb.png)](http://www.redmond-recap.com/2013/08/22/state-of-asp-net-part-2-one-asp-net/)  
-Diagram of ASP.NET 5 by [Jouni Heikniemi](http://www.redmond-recap.com/2013/08/22/state-of-asp-net-part-2-one-asp-net/), 2013
+
 
 In 2008 Rick Strahl [defined](http://www.west-wind.com/presentations/howaspnetworks/howaspnetworks.asp) ASP.NET in the following way:
 > __ASP.NET is a sophisticated engine using Managed Code for front to back processing of Web Requests.__ ASP.NET is a request processing engine. It takes an incoming request and passes it through its internal pipeline to an end point where you as a developer can attach code to process that request. This engine is actually completely separated from HTTP or the Web Server.
