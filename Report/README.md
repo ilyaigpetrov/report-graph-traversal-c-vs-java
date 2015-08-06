@@ -246,8 +246,9 @@ It's worth noting that Java parameter passing is better than in C.
 
 #### Paradigms Support
 Java supports OOP, imperative, structured, functional, procedural (static methods), generic, reflective, concurrent paradigms.
-C supports imperative, structured, procedural, generic (preprocessor macros), concurrent (`pthread.h`) paradigms.
-Java support of functional programming became better recently. Both languages support closures. The following Java code exerts lambdas:
+C supports imperative, structured, procedural, generic (preprocessor macros), concurrent (`pthread.h`) paradigms.  
+Java support of functional programming became better recently. Both languages support closures.  
+The following Java code exerts lambdas:
 ```java
 this._ifTargetFunction =
         nodei -> {
@@ -276,27 +277,32 @@ void ListAddListNode(List *list, int noden) {
 To sum it up, Java boasts better paradigm support than C, yet C may emulate some paradigms.
 
 #### Ease of Code Maintenance
-As Java is simpler and more readable its code is easier to maintain. It is easier to write unmaintainable code in C. Advanced code editors like Eclipse offer code refactor techniques for both languages, though C is more reluctant in this way.
+As Java is simpler and more readable its code is easier to maintain.  
+It is easier to write unmaintainable code in C.  
+Advanced code editors like Eclipse offer code refactor techniques for both languages, though C is more reluctant in this way.
 
 #### Cost
-Both languages are free, C tool set is more liberal.
-There are plenty of free of cost profilers for GCC C under Unix, and fewer for Java.
-Fewer maintainability of C requires additional costs.
+Both languages are free, C tool set is more liberal.  
+There are plenty of free of cost profilers for GCC C under Unix, and fewer for Java.  
+Fewer maintainability of C requires additional costs.  
 If you are interested in language specifications -- official C specs are paid for and drafts are free, Java specs are free.
 
 #### Abstraction
-Abstraction is the main principle of OPP and Java adheres to it vividly. Java works at a higher level of abstraction by the penalty of performance. C lacks Garbage collection and forces programmer to work on the lower level.
+Abstraction is the main principle of OPP and Java adheres to it vividly.  
+Java works at a higher level of abstraction by the penalty of performance.  
+C lacks Garbage collection and forces programmer to work on the lower level.
 
 #### Well Definedness
-> Well-definedness  The completeness and precision of the languages official definition.
+> Well-definedness – The completeness and precision of the language's official definition.
 
-Both languages are well defined (e.g., both has specifications, both defined by formal grammar).
-Both offer verbose documentation though I personally find Java more well documented than C.
-In C documentation I sometimes stumble upon phrases like "if argument is NULL the behavior is not defined." which are absent in Java documentation (Java simply throws exceptions in such cases). This makes Java more predictable and well-defined.
+Both languages are well defined (e.g., both has specifications, both defined by formal grammar).  
+Both offer verbose documentation though I personally find Java more well documented than C.  
+In C documentation I sometimes stumble upon phrases like "if argument is NULL the behavior is not defined." which are absent in Java documentation (Java simply throws exceptions in such cases).  
+This makes Java more predictable and well-defined.
 
 #### Dependability
-C better meets goals of independent projects, e.g., military projects.
-With C you depend on a compiler which can be bootstrapped and on C standards committee.
+C better meets goals of independent projects, e.g., military projects.  
+With C you depend on a compiler which can be bootstrapped and on C standards committee.  
 With Java it is legal to devise your own virtual machine (e.g., `Dalvik`) though you have to keep with some restrictions (see [Oracle vs. Google](https://en.wikipedia.org/wiki/Dalvik_(software)#Licensing_and_patents)).
 
 #### Other Characteristics
@@ -311,16 +317,20 @@ Java has Garbage Collection at the penalty of execution time checks.
 ##### Consistency
 C gives you more programming freedom and doesn't prompt naming convention as Java.
 ##### Standardization
-Java platform standardization is driven by Oracle, C -- by ISO. Both are standardized and documented.
+Java platform standardization is driven by Oracle, C -- by ISO.  
+Both are standardized and documented.
 ##### Web Applications & Web Services Development
-Though it is possible to program for web in C, it is not a common case. Java fits better for this objective.
+Though it is possible to program for web in C, it is not a common case.  
+Java fits better for this objective.
 ##### Compilation/Interpretation
-C is compiled and executed. Java is compiled to bytecode, bytecode is then compiled just-in-time.
+C is compiled and executed.  
+Java is compiled to bytecode, bytecode is then compiled just-in-time.
 ##### Using in Startups and Prototyping
 Java is easier to prototype in and thus to write startups.
 
 ### Conclusion
-Java outperforms C in overwhelming majority of aspects. But if you have to write high-performance code, e.g., system driver, or independent project then Java is no choice in favor of C.
+Java outperforms C in overwhelming majority of aspects.  
+But if you have to write high-performance code, e.g., system driver, or independent project then Java is no choice in favor of C.  
 The followig table summarizes comparison.
 
 \+ means "wins"  
@@ -344,5 +354,5 @@ The followig table summarizes comparison.
 | Well Definedness	| +		| +  
 | Dependability		| -		| +  
 
-### Some materials used.
+### Some Materials Used
 [Principles of Programming Language, G. NARAYANAMMA INSTITUTE OF TECHNOLOGY & SCIENCE](http://www.slideshare.net/blackdevilvikas/ptinciples-of-programming-languages).
