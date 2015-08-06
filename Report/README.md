@@ -21,19 +21,23 @@ bfs(from vertex x)
             visit w
             add w it to end of L
 ```
-Each traversal will be implemented on undirected graph of cities, where each node represents a city with information on its population, elevation and name. Algorithm stops when the target node is found or all vertices are visited.
+Each traversal will be implemented on undirected graph of cities, where each node represents a city with information on its population, elevation and name.  
+Algorithm stops when the target node is found or all vertices are visited.
 
 ### Configurations
 
-Java implementation is written for `Java 8` development platform, compiled without any flags and launched with the following flags: 
+Java implementation is written for `Java 8` development platform, compiled without any flags and launched with the following flags:  
 `java -XX:+AggressiveOpts -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -server -Xmx8g -d64 BFS 6`.  
-Clarification of options used may be found on [oracle site](http://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html#BABFAFAE).
-C implementation is written for GNU Compiler Collection and compiled with in the following way: 
-`gcc BFS.c -O3 -o bfs.exe -include Expression.h`.
-Java implementation contains Recursive Descent Parser for parsing expressions that describe target graph node. C implementation instead takes search expressions in include file `Expression.h`.
+Clarification of options used may be found on [oracle site](http://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html#BABFAFAE).  
+C implementation is written for GNU Compiler Collection and compiled with in the following way:  
+`gcc BFS.c -O3 -o bfs.exe -include Expression.h`.  
+Java implementation contains Recursive Descent Parser for parsing expressions that describe target graph node.  
+C implementation instead takes search expressions in include file `Expression.h`.  
 Measurements are conducted on `Windows 7x64` machine with 3gb of RAM and Pentium Dual Core processor (2 threads).
 
-Measurements of execution times are conducted with separate measurements of time spent for input parsing, algorithm execution and output production. Measurements are realized with code instrumentation with calls to custom profiler and `time` command of `Cygwin` or other akin environment. The following source code excerpt demonstrates instrumentation:
+Measurements of execution times are conducted with separate measurements of time spent for input parsing, algorithm execution and output production.  
+Measurements are realized with code instrumentation with calls to custom profiler and `time` command of `Cygwin` or other akin environment.  
+The following source code excerpt demonstrates instrumentation:
 ```java
 Profiler.startTimeProfile("OUTPUT");
 // ...writing output...
@@ -78,19 +82,27 @@ L-- TraverseAlgorithm.java // Base class for algorithms
 Implementations will be compared on the basis of number of characteristics and features present to figure out shortcomings and strong parts of the languages.
 
 #### Time Performance
-The following chart demonstrates time consumed for reading input files by C and Java implementations for different number of nodes. We can see that C outperforms Java in read performance for sufficiently large input.
+The following chart demonstrates time consumed for reading input files by C and Java implementations for different number of nodes.  
+We can see that C outperforms Java in read performance for sufficiently large input.
 
 ![Readability comparison chart](https://plot.ly/~ilyaigpetrov/32.png)
 
-Though C is faster, its code is not always portable. E.g. large read performance is reached by using `gnu getline` function in C which is fast but copes only with Unix-style line endings `\n` and doesn't treat `\r` of old Macs as line breaks. That't why input files for C implementation first have to be processed with  `mac2unix` and `dos2unix` utilities called by `prepareInputs.sh` bash script in the source codes. My attempts of implementing `crossplatformGetline` led to dramatically worse performance and may be found in `Tool.h` 
+Though C is faster, its code is not always portable.  
+E.g. large read performance is reached by using `gnu getline` function in C which is fast but copes only with Unix-style line endings `\n` and doesn't treat `\r` of old Macs as line breaks.  
+That't why input files for C implementation first have to be processed with  `mac2unix` and `dos2unix` utilities called by `prepareInputs.sh` bash script in the source codes.  
+My attempts of implementing `crossplatformGetline` led to dramatically worse performance and may be found in `Tool.h` 
 
-The following chart demonstrated time consumed for algorithm execution by C and Java implementations. C outperforms Java again.
+The following chart demonstrated time consumed for algorithm execution by C and Java implementations.  
+C outperforms Java again.
 
 ![Algorithms comparison chart](https://plot.ly/~ilyaigpetrov/19.png)
 
 #### Memory Consumption
 
-Memory footprint of C implementation is significantly fewer. Java implementation runs into OutOfMemory exception if launched with default flags (default `MaxHeapSize` is 768mb on the experimental machine) on 10000 nodes of input. Higher level abstractions of Java and virtual machine require more space. Compare C and Java code structures used for storing edges.
+Memory footprint of C implementation is significantly fewer.  
+Java implementation runs into OutOfMemory exception if launched with default flags (default `MaxHeapSize` is 768mb on the experimental machine) on 10000 nodes of input.  
+Higher level abstractions of Java and virtual machine require more space.  
+Compare C and Java code structures used for storing edges.  
 C, thin low level structures:
 ```c
 typedef struct ListNode ListNode;
@@ -104,20 +116,23 @@ struct List {
     ListNode *last;   // To add new nodes.
 };
 ```
-Java, high-level classes :
+Java, high-level classes:
 ```java
 // Modified for report, exerts ordered set.
 this.edges = new HashMap<Integer, LinkedHashSet<Integer>>(n);
 ```
 
 #### Readability and Orthogonality
-Readability is defined by how easy your code to read and understand by other experienced programmers. It is relevant to orthogonality which is defined by how many programming concepts and their combinations you have to use to reach your goal. As a rule of thumb the more freedom the language gives you the less readable it is.
-Both C and Java are quite readable in comparison to, e.g., `C++` or `Perl`.
-But C gives the programmer more freedom than Java, especially, on the low level.
-More than that as Java offers rich Standard Class Library out of the box and C doesn't offer something as portable, in C you have to write low level code or be dependent on the third party libraries.
-In this aspect Java is more readable as it works with high level abstractions. It may be stated that in Java you have to be familiar with more higher-level concepts than in C but in C instead you have to be familiar with large number of combinations of low level concepts that's why Java doesn't loose in orthogonality.
-Both languages don't impose any naming convention but Java prompts the convention used throughout its Standard Library.
-More than that Java strives to be clear and verbose but C is terse and that's why less readable.
+Readability is defined by how easy your code to read and understand by other experienced programmers.  
+It is relevant to orthogonality which is defined by how many programming concepts and their combinations you have to use to reach your goal.  
+As a rule of thumb the more freedom the language gives you the less readable it is.  
+Both C and Java are quite readable in comparison to, e.g., `C++` or `Perl`.  
+But C gives the programmer more freedom than Java, especially, on the low level.  
+More than that as Java offers rich Standard Class Library out of the box and C doesn't offer something as portable, in C you have to write low level code or be dependent on the third party libraries.  
+In this aspect Java is more readable as it works with high level abstractions.  
+It may be stated that in Java you have to be familiar with more higher-level concepts than in C but in C instead you have to be familiar with large number of combinations of low level concepts that's why Java doesn't loose in orthogonality.  
+Both languages don't impose any naming convention but Java prompts the convention used throughout its Standard Library.  
+More than that Java strives to be clear and verbose but C is terse and that's why less readable.  
 C offers wider aliasing techniques with preprocessor macros which give inexperienced programmers the freedom to obfuscate code.
 
 To sum it up, Java outperforms C in readability:
@@ -135,30 +150,40 @@ There are two contradicting approaches in language design:
 1. "There should be one -- and preferably only one -- obvious way to do it." (Python principle)
 2. "There's More Than One Way To Do It" (Perl principle)
 
-Both Java and C are idiomatic, i.e., they both has idioms for achieving practical goals. This makes them more readable. But I find Java to be more inclined to the first principle and thus more readable.
+Both Java and C are idiomatic, i.e., they both has idioms for achieving practical goals.  
+This makes them more readable.  
+But I find Java to be more inclined to the first principle and thus more readable.
 
 #### Writability and Expressivity
-It is more difficult to write code in C as it uses contractions which are not always easy to remember.
-C is less expressive, e.g., not all standards allow type declarations like `for(int i=0;....)`, there are no foreachs like Java's `for(int i : someList)`.
+It is more difficult to write code in C as it uses contractions which are not always easy to remember.  
+C is less expressive, e.g., not all standards allow type declarations like `for(int i=0;....)`, there are no foreachs like Java's `for(int i : someList)`.  
 With Java abstractions under your fingertips it is easier to write concise code and not to reinvent bicycles in C.
 
 #### Reliability
-Reliability is defined by how robust your program to failures in input, runtime exceptions, programming errors, etc.
-Java offers exception control concepts such as `try-catch-finally` blocks and `throws` declarations in method signatures. It makes Java code more robust to failures. Moreover Java offers Garbage Collection so you are less prone to memory programming errors in Java than in C. The penalty of this is additional cost of execution.
-As C lacks exception control while porting Java graph traversal implementation to C exceptions handling mechanisms were substituted with custom `failWtih`function.
-C intricate programming interfaces are harder to remember which leads to more programming errors.
+Reliability is defined by how robust your program to failures in input, runtime exceptions, programming errors, etc.  
+Java offers exception control concepts such as `try-catch-finally` blocks and `throws` declarations in method signatures.  
+It makes Java code more robust to failures.  
+Moreover Java offers Garbage Collection so you are less prone to memory programming errors in Java than in C.  
+The penalty of this is additional cost of execution.  
+As C lacks exception control while porting Java graph traversal implementation to C exceptions handling mechanisms were substituted with custom `failWtih`function.  
+C intricate programming interfaces are harder to remember which leads to more programming errors.  
 Both languages are strict-typed which makes them more robust.
 
 #### Learnability
-Learnability is defined by how easy it is for a newcomer to pick up the language.
-With Java you have to learn OOP concepts (Class, Inheritance, Encapsulation, Abstraction, Polymorphism, etc.), exception control and idiomaitc use cases of Standard Class Library. With C you have to learn low level manipulation (pointer, address, casting), memory management (`malloc`, `calloc`, `free`), preprocessor and types, use cases of intricate standard libraries functions. From my point of view it is more easier to learn Java than C but both are worth learning and both will pay off in the future.
+Learnability is defined by how easy it is for a newcomer to pick up the language.  
+With Java you have to learn OOP concepts (Class, Inheritance, Encapsulation, Abstraction, Polymorphism, etc.), exception control and idiomaitc use cases of Standard Class Library.  
+With C you have to learn low level manipulation (pointer, address, casting), memory management (`malloc`, `calloc`, `free`), preprocessor and types, use cases of intricate standard libraries functions.  
+From my point of view it is more easier to learn Java than C but both are worth learning and both will pay off in the future.
 
 #### Portability
-Portability is defined by how portable your code to other platforms.
-Java is devised with portability in mind: it may boast virtual machine and portable Standard Class Library. Though C may be compiled for virtual machine too, its standard libraries can't offer the same multitude of crossplatform solutions as Java, e.g., reading file line by line is not present in C standard libraries and third library solutions like `gnu getline` may be not portable. In the task of graph traversal you have to write your own portable `getline` (which may be slow), or rely on third parties. In other words, it takes pains to write portable code in C.
+Portability is defined by how portable your code to other platforms.  
+Java is devised with portability in mind: it may boast virtual machine and portable Standard Class Library.  
+Though C may be compiled for virtual machine too, its standard libraries can't offer the same multitude of crossplatform solutions as Java, e.g., reading file line by line is not present in C standard libraries and third library solutions like `gnu getline` may be not portable.  
+In the task of graph traversal you have to write your own portable `getline` (which may be slow), or rely on third parties.  
+In other words, it takes pains to write portable code in C.
 
 #### Simplicity
-Code in Java is more simple than in C.
+Code in Java is more simple than in C.  
 Let's consider one excerpt from the source codes.
 ```c
 // concat_malloc("One", "Two", NULL);
@@ -179,7 +204,10 @@ char* concat_malloc(char *first, ...) {
     return message;
 }
 ```
-This is a function in C to concatenate variable number of arguments into one string. In C you have to know number of arguments beforehand or you have to use some sentinel like `NULL` in this case. This function calls to another variable number of arguments function `concatValist_malloc` which operates on `va_list` type instead. We have two functions: one for calling as ordinary variable number arguments function, another for calling from within another variable number of arguments function (passing `va_list`), e.g., from this function:
+This is a function in C to concatenate variable number of arguments into one string.  
+In C you have to know number of arguments beforehand or you have to use some sentinel like `NULL` in this case.  
+This function calls to another variable number of arguments function `concatValist_malloc` which operates on `va_list` type instead.  
+We have two functions: one for calling as ordinary variable number arguments function, another for calling from within another variable number of arguments function (passing `va_list`), e.g., from this function:
 ```c
 void failWith(char *first, ...) {
     va_list argp;
@@ -202,13 +230,18 @@ void foo(String... args) {
     }
 }
 ```
-Secondly, you don't have to implement such bicycles in Java as they are in Standard Class Library already.
-Thirdly, you don't have to bother with memory arrangement in Java. The trade off of this is performance impact of Java Garbage Collector which may be difficult to predict.
+Secondly, you don't have to implement such bicycles in Java as they are in Standard Class Library already.  
+Thirdly, you don't have to bother with memory arrangement in Java.  
+The trade off of this is performance impact of Java Garbage Collector which may be difficult to predict.  
 Obviously, Java code is simpler than C.
 
 #### Generality and Reusability
-Generality of code is defined by whether it may be applied to vast majority of use cases, e.g., different types of inputs. General functions are those that are not dependent on the context or that take any number of arguments. It is related to reusability which is defined whether the code may be reused in different scenarios.
-It takes more efforts to write crossplatform reusable code in C as it is less portable. Further, OOP paradigm promotes reusability of code to further extent than structural programming of C. Moreover  Java offers generics and method overloading and C respond is preprocessor macros.
+Generality of code is defined by whether it may be applied to vast majority of use cases, e.g., different types of inputs.  
+General functions are those that are not dependent on the context or that take any number of arguments.  
+It is related to reusability which is defined whether the code may be reused in different scenarios.  
+It takes more efforts to write crossplatform reusable code in C as it is less portable.  
+Further, OOP paradigm promotes reusability of code to further extent than structural programming of C.  
+Moreover  Java offers generics and method overloading and C respond is preprocessor macros.  
 It's worth noting that Java parameter passing is better than in C.
 
 #### Paradigms Support
