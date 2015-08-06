@@ -45,7 +45,8 @@ As shown Node.js uses one thread for handling requests and many threads to provi
 
 ![enter image description here](https://strongloop.com/wp-content/uploads/2014/01/threading_java.png)
 
-In this multi threaded model the server spawns new thread for handling each request which sleeps on blocking IO operations consuming CPU and memory resources.
+The diagram above shows multi threaded server that may be found, e.g., in Java.
+In this model the server spawns new thread for handling each request which sleeps on blocking IO operations consuming CPU and memory resources.
 
 So how exactly does ASP.NET work? ASP.NET doesn't use one thread but instead uses restricted number of threads from the pool and queues requests to it. Threads may be terminated on asynchronous operations like in Node.js. However, ASP.NET processing model is more prone to context switching which implies additional CPU costs. More than that as ASP.NET and .NET were not designed with asynchronous programming in mind some libraries may still offer no support for it making its freedom of choice quite restricted.
 
