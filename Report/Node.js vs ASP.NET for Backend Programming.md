@@ -2,13 +2,31 @@
 
 We will compare ASP.NET and Node.js for backend programming.
 
-### About ASP.NET
+### What is ASP.NET?
 
 ASP.NET  is a web application framework by Microsoft.  
 ASP.NET offers common functionality for others frameworks on top of it:  
 ASP.NET Web Pages, ASP.NET Web Forms, ASP.NET MVC, etc.  
 For example, ASP.NET includes such common functionality as facilities for managing requests, handling sessions and a login security model based around membership.  
-These frameworks has different goals, may be used together and will be merged into MVC 6 or ASP.NET 5.  
+These frameworks has different goals, may be used together and will be merged into ASP.NET 5 (ASP.NET vNext).
+
+The following diagrams present ASP.NET architecture in relation to other frameworks.
+
+![ASP.NET Architecture by Scott Hanselman, 2013](http://www.redmond-recap.com/wp-content/uploads/2013/08/image_thumb.png)  
+Diagram of ASP.NET 5 by [Scott Hanselman](http://www.hanselman.com/blog/ReleasedASPNETAndWebTools20122InContext.aspx), 2013
+
+[![Architecture of ASP.NET 4.5, 2013](http://www.dotnet-tricks.com/Content/images/aspnet/asp.net4.5architecture.png)](http://www.dotnet-tricks.com/Tutorial/aspnet/SaJc221013-Understanding-Detailed-Architecture-of-ASP.NET-4.5.html)  
+Diagram of ASP.NET 4.5 by [Shailendra Chauhan](http://www.dotnet-tricks.com/Tutorial/aspnet/SaJc221013-Understanding-Detailed-Architecture-of-ASP.NET-4.5.html), 2013
+
+[![Architecture of ASP.NET, 2013](http://www.redmond-recap.com/wp-content/uploads/2013/08/AspnetCoreStack_thumb.png)](http://www.redmond-recap.com/2013/08/22/state-of-asp-net-part-2-one-asp-net/)  
+Diagram of ASP.NET 5 by [Jouni Heikniemi](http://www.redmond-recap.com/2013/08/22/state-of-asp-net-part-2-one-asp-net/), 2013
+
+In 2008 Rick Strahl [defined](http://www.west-wind.com/presentations/howaspnetworks/howaspnetworks.asp) ASP.NET in the following way:
+> __ASP.NET is a sophisticated engine using Managed Code for front to back processing of Web Requests.__ ASP.NET is a request processing engine. It takes an incoming request and passes it through its internal pipeline to an end point where you as a developer can attach code to process that request. This engine is actually completely separated from HTTP or the Web Server.
+
+Building web applications in pure ASP.NET without MVC, Web API or other overhead seems possible but it's certainly not a common case and I didn't find any documents explaining when it's needed and how to achieve it.  
+So in this article we will assume that at least one of ASP.NET overhead frameworks is used, preferably ASP.NET MVC.
+
 Sources: [asp.net](http://www.asp.net/get-started/websites).
 
 ### Processing Models
@@ -26,7 +44,7 @@ As shown Node.js uses one thread for handling requests and many threads to provi
 
 In this multi threaded model the server spawns new thread for handling each request which sleeps on blocking IO operations consuming CPU and memory resources.
 
-So how exactly does ASP.NET work? ASP.NET doesn't use one thread but instead uses restricted number of threads from the pool and queues requests to it. Threads may be terminated on asynchronous operations like in Node.js. However, ASP.NET processing model is more prone to context switching which implies additional CPU costs. More than that as ASP.NET and .NET weren't designed with asynchronous programming in mind some libraries may still offer no support for it making its freedom of choice quite restricted.
+So how exactly does ASP.NET work? ASP.NET doesn't use one thread but instead uses restricted number of threads from the pool and queues requests to it. Threads may be terminated on asynchronous operations like in Node.js. However, ASP.NET processing model is more prone to context switching which implies additional CPU costs. More than that as ASP.NET and .NET were not designed with asynchronous programming in mind some libraries may still offer no support for it making its freedom of choice quite restricted.
 
 Sources:  
 [What Makes Node.js Faster Than Java?](https://strongloop.com/strongblog/node-js-is-faster-than-java/)  
