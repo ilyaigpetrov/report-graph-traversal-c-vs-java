@@ -2,6 +2,19 @@
 
 We will compare ASP.NET and Node.js for backend programming.
 
+### Comparing Apples to Oranges
+
+To compare two distinct concepts we need an aim.  
+We can compare apples to oranges only if we know the aim, .e.g. our aim may be to figure out which fruit is less harmful for nutrition of small children, which is better for public speakers (produces less harm to the throat) and so on.  
+Purpose described as 'backend programming' is very broad, within it there are tasks which are better suited for Node.js as well as there are such for ASP.NET.  
+In this report we will narrow down our comparison to:
+
+1. Support for asynchronous programming.
+2. Robustness of the languages.
+3. Simplicity of the code and deployment.
+
+TODO: review.
+
 ### What is ASP.NET?
 
 ASP.NET  is a web application framework by Microsoft.  
@@ -62,8 +75,6 @@ Sources:
 [The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
 
 
-
-
 ### Processing Models
 
 The main difference between Node.js and ASP.NET frameworks is their processing models.  
@@ -80,7 +91,7 @@ As shown Node.js uses one thread for handling requests and many threads to provi
 The diagram above shows multi threaded server that may be found, e.g., in Java.
 In this model the server spawns new thread for handling each request which sleeps on blocking IO operations consuming CPU and memory resources.
 
-So how exactly does ASP.NET work? ASP.NET doesn't use one thread but instead uses restricted number of threads from the pool and queues requests to it. Threads may be terminated on asynchronous operations like in Node.js. However, ASP.NET processing model is more prone to context switching which implies additional CPU costs. More than that as ASP.NET and .NET were not designed with asynchronous programming in mind some libraries may still offer no support for it making its freedom of choice quite restricted.
+So how exactly does ASP.NET work? ASP.NET doesn't use one thread but instead uses restricted number of threads from the pool and queues requests to it. Threads may be terminated on asynchronous operations like in Node.js. However, ASP.NET processing model is more prone to context switching which implies additional CPU costs. More than that as ASP.NET and .NET were not designed with asynchronous programming in mind some libraries may still offer no support for it or offer "fake asynchrony", this makes .NET freedom of async choice quite restricted.
 
 Sources:  
 [What Makes Node.js Faster Than Java?](https://strongloop.com/strongblog/node-js-is-faster-than-java/)  
@@ -88,6 +99,7 @@ Sources:
 [ASP.NET Thread Usage on IIS 7.5, IIS 7.0, and IIS 6.0](http://blogs.msdn.com/b/tmarq/archive/2007/07/21/asp-net-thread-usage-on-iis-7-0-and-6-0.aspx)  
 [Node.js and Context Switching](http://stackoverflow.com/questions/16707098/node-js-kernel-mode-threading)  
 [Opinionated Node.js vs. Non-opinionated ASP.NET](http://stackoverflow.com/a/11060092/521957)
+[How does Asynchronous Model Work](https://msdn.microsoft.com/en-us/magazine/dn802603.aspx)
 
 
 ### Programming Languages
@@ -152,7 +164,7 @@ app.use(function *(next){
 // response
 
 app.use(function *(){
-  this.body = 'Hello World';
+  this.body = 'Welcome to Koa.js!';
 });
 
 app.listen(3000);
@@ -160,7 +172,7 @@ app.listen(3000);
 ```
 The following example demonstrates `if-else` control flow implemented in asynchronous manner.  
 The desired flow is the following:
-```
+```javascript
 if( isAuthenticatedAsync() ) {
   return 'Success, you are authenticated';
 } else {
@@ -182,7 +194,7 @@ jsonRouter.route('/login')
 `authenticateMiddleware` keeps its state somewhere in `req` object and checks it with `req.isAuthenticated` method.  
 
 The same approach, but with Koa.js, the state is kept in `this` context object.
-```
+```javascript
 /* Warning!
    Don't copy this code!
    It may be not idiomatic as it is written by non-experienced programmer.
@@ -236,6 +248,87 @@ app.use(function* (){
 });
 ```
 
+TODO: add ASP.NET async examples.
+
+#### Examples: Asynchronous Calls to HackerNews JSON API
+Popular [HackerNews site](news.ycombinator.com) has a [json api](https://github.com/HackerNews/API).  
+Shortly, it works in the following way:
+```http
+GET https://hacker-news.firebaseio.com/v0/topstories.json
+-> responds with an array of items like [10023413,10022014...]
+GET https://hacker-news.firebaseio.com/v0/item/10023413.json
+-> responds with something like:
+{
+  "by": "steveklabnik",
+  "descendants": 2,
+  "id": 10023413,
+  "kids": [
+    10023645
+  ],
+  "score": 81,
+  "text": "",
+  "time": 1438965545,
+  "title": "Announcing Rust 1.2",
+  "type": "story",
+  "url": "http://blog.rust-lang.org/2015/08/06/Rust-1.2.html"
+}
+```
+In these examples we will be retrieving top story title from HN API.  
+Here is how it may be done in ASP.NET 5:
+```csharp
+// Startup.cs
+using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Http;
+using Microsoft.Framework.Logging;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+namespace HelloWeb
+{
+  public class Startup
+  {
+  
+    public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+    {
+      var logger = loggerFactory.AddConsole().CreateLogger(this.GetType().Name);
+      logger.LogInformation("Configuring...");
+      
+      app.Run(async (context) => {
+        var path = context.Request.Path;
+        logger.LogInformation("Has request for "+path+"!");
+
+        using (var client = new HttpClient())
+        {
+          client.BaseAddress = new Uri("https://hacker-news.firebaseio.com");
+          client.DefaultRequestHeaders.Accept.Clear();
+          client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+          HttpResponseMessage response = await client.GetAsync("/v0/topstories.json?print=pretty");
+          if (response.IsSuccessStatusCode)
+          {
+            var arr = await response.Content.ReadAsAsync<dynamic>();
+            var responseId = (String) arr[0];
+            var itemUrl = String.Format("/v0/item/{0}.json?print=pretty", responseId);
+            response = await client.GetAsync(itemUrl);
+            if (response.IsSuccessStatusCode)
+            {
+              var dict = await response.Content.ReadAsAsync<dynamic>();
+              var title = (String) dict["title"];
+              logger.LogInformation(title);
+              await context.Response.WriteAsync(title);
+              return;
+            }
+          }
+          logger.LogInformation("Error:" + await response.Content.ReadAsStringAsync());
+          await context.Response.WriteAsync("Service is not available!");
+        }      
+      });
+    }
+  }
+}
+```
+
+
 ### Abstractions and Conventions
 
 Node.js is "close to the metal." It offers fewer and thinner abstractions.  
@@ -261,7 +354,7 @@ Conclusion:
 
 ### Simplicity
 
-To assess simplicity let's consider hello world examples of Node.js and ASP.NET.  
+To assess simplicity let's consider hello world examples of Node.js and ASP.NET vNext.  
 
 Node.js project file structure:
 ```sh
@@ -303,7 +396,7 @@ node server.js
 
 Now let's look at some corresponding examples for ASP.NET 5 Beta (vNext). We are considering the latest beta because Microsoft is striving to adopt strong sides of Node.js in their latest ASP.NET so it closely resembles Node.js.  
 
-All examples are taken from https://github.com/aspnet/home.
+All examples are taken from https://github.com/aspnet/home and _modified_ for comparison.
 
 "HelloWeb" sample, ASP.NET project file structure:
 ```sh
