@@ -32,6 +32,36 @@ So in this article we will assume that at least one of ASP.NET overhead framewor
 
 Sources: [asp.net](http://www.asp.net/get-started/websites).
 
+### Principles behind Node.js and C#/ASP.NET/ASP.NET MVC
+
+TO BE DONE: This section is not ready yet.
+
+ASP.NET MVC embraces Single Responsibility Principle and I'm pretty sure it embraces the whole [SOLID](https://en.wikipedia.org/wiki/SOLID) set of principles of OOP.  
+To quote Eilon Lipton:
+> ...each of the components in the MVC framework is fairly small and self contained, with single responsibilities. This means that due to their small size you have building blocks that are easier to understand. It also means that you can replace or even alter the building blocks if they don't suit your needs.
+
+
+| Characterisitc     							| Node.js  	| ASP.NET
+| ----------------   								|:------:   	|:-------
+| SRP and SoC 									| +		 		| SOLID
+| Louse Coupling								| +		 		| DIP<br/>Dependence on Interfaces
+| Extensibility  									| Composition?				| Override of Classes<br/>Composition
+
+DIP -- Dependency Inversion Principle
+
+> Separation of Concerns (SoC) – is the process of breaking a computer program into distinct features that overlap in functionality as little as possible. A concern is any piece of interest or focus in a program. Typically, concerns are synonymous with features or behaviors.
+http://en.wikipedia.org/wiki/Separation_of_concerns
+
+> Single Responsibility Principle (SRP) – every object should have a single responsibility, and that all its services should be narrowly aligned with that responsibility. On some level Cohesion is considered as synonym for SRP.
+http://en.wikipedia.org/wiki/Single_responsibility_principle
+
+Sources:  
+[ASP.NET MVC Design Philosophy, Eilon Lipton, 2007](https://web.archive.org/web/20150627050706/http://weblogs.asp.net/leftslipper/asp-net-mvc-design-philosophy)
+[The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
+
+
+
+
 ### Processing Models
 
 The main difference between Node.js and ASP.NET frameworks is their processing models.  
@@ -81,7 +111,7 @@ Both, C# and JavaScript support asynchronous programming.
 C# exerts `async` and `await` keywords.  
 As a pioneer Node.js proposed several approaches to asynchronous programming:  
 
-- Using callbacks. This way your code becomes hard to read, and control flow is hardened. See Node.js Pyramyd of Doom for examples. This approached appeared the first. 
+- Using callbacks. This way your code becomes hard to read, and control flow is hardened. See Node.js Pyramid of Doom or http://callbackhell.com for examples. This approached appeared the first. 
 - `yield` keyword, co-routines, generators and Promises eliminate your code from deep nested callbacks and makes it easier to read. This approach is demonstrated by Koajs web framework.
 - `await` and `async` keywords are part of experimental EcmaScript7 standard and may be used today with transpilers like Babel. This syntax constructs make your code more clear for those not introduced to Promises and generators.
 
@@ -154,7 +184,7 @@ Some programmers are not happy with JavaScript being not robust, e.g. [see this]
 ### Learnability
 
 Learnability is defined by how easy it is for a newcomer to pick up the language.  
-Being dynamically typed, JavaScript is easier to pick up, but in Node.js to deliver high-quality code you eventually has to know Promises, generators and co-routines. New syntax sugar of upcoming EcmaScript standards like ES2015 and ES7 add more ways to express the same meaning making non-recent code less readable.
+Being dynamically typed, JavaScript is easier to pick up, but in Node.js to deliver high-quality code you eventually has to know Promises, generators and co-routines. New syntax sugar of upcoming EcmaScript standards like ES2015 and ES7 adds more ways to express the same meaning making non-recent code less readable.
 
 ### Ecosystem
 
