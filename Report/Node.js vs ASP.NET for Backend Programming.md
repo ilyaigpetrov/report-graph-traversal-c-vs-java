@@ -34,7 +34,7 @@ Sources: [asp.net](http://www.asp.net/get-started/websites).
 
 ### Principles behind Node.js and C#/ASP.NET/ASP.NET MVC
 
-TO BE DONE: This section is not ready yet.
+TO BE DONE: This chapter is just a draft, don't take it seriously.
 
 ASP.NET MVC embraces Single Responsibility Principle and I'm pretty sure it embraces the whole [SOLID](https://en.wikipedia.org/wiki/SOLID) set of principles of OOP.  
 To quote Eilon Lipton:
