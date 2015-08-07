@@ -37,6 +37,7 @@ Sources: [asp.net](http://www.asp.net/get-started/websites).
 TO BE DONE: This chapter is just a draft, don't take it seriously.
 
 ASP.NET MVC embraces Single Responsibility Principle and I'm pretty sure it embraces the whole [SOLID](https://en.wikipedia.org/wiki/SOLID) set of principles of OOP.  
+
 To quote Eilon Lipton:
 > ...each of the components in the MVC framework is fairly small and self contained, with single responsibilities. This means that due to their small size you have building blocks that are easier to understand. It also means that you can replace or even alter the building blocks if they don't suit your needs.
 
@@ -46,6 +47,7 @@ To quote Eilon Lipton:
 | SRP and SoC 									| +		 		| SOLID
 | Louse Coupling								| +		 		| DIP<br/>Dependence on Interfaces
 | Extensibility  									| Composition?				| Override of Classes<br/>Composition
+| Close to Metal 								| +		 		| --, abstract
 
 DIP -- Dependency Inversion Principle
 
@@ -56,7 +58,7 @@ http://en.wikipedia.org/wiki/Separation_of_concerns
 http://en.wikipedia.org/wiki/Single_responsibility_principle
 
 Sources:  
-[ASP.NET MVC Design Philosophy, Eilon Lipton, 2007](https://web.archive.org/web/20150627050706/http://weblogs.asp.net/leftslipper/asp-net-mvc-design-philosophy)
+[ASP.NET MVC Design Philosophy, Eilon Lipton, 2007](https://web.archive.org/web/20150627050706/http://weblogs.asp.net/leftslipper/asp-net-mvc-design-philosophy)  
 [The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
 
 
@@ -121,6 +123,119 @@ Node.js is slightly different though:
 1. It compels you to write your code in asynchronous manner, so most libraries support asynchronous model.
 2. It implies fewer context switches as stated by some sources.
 
+#### Examples
+
+Koa.js and `yield` asynchronous approach:
+
+```javascript
+var koa = require('koa');
+var app = koa();
+
+// x-response-time
+
+app.use(function *(next){
+  var start = new Date;
+  yield next;
+  var ms = new Date - start;
+  this.set('X-Response-Time', ms + 'ms');
+});
+
+// logger
+
+app.use(function *(next){
+  var start = new Date;
+  yield next;
+  var ms = new Date - start;
+  console.log('%s %s - %s', this.method, this.url, ms);
+});
+
+// response
+
+app.use(function *(){
+  this.body = 'Hello World';
+});
+
+app.listen(3000);
+
+```
+The following example demonstrates `if-else` control flow implemented in asynchronous manner.  
+The desired flow is the following:
+```
+if( isAuthenticatedAsync() ) {
+  return 'Success, you are authenticated';
+} else {
+  return 'Failure, you are not authenticated.'
+}
+```
+First approach, keep state in object passable between callbacks.  
+Example inspired by Express.js and Passport.js.  
+```javascript
+jsonRouter.route('/login')
+  .get(
+    authenticateMiddleware,
+    function loginMiddleware(req, res, next) {
+        if (!req.isAuthenticated())
+            return res.json('Failure, you are not authenticated.');
+        return res.json('Success, you are authenticated');
+    }
+```
+`authenticateMiddleware` keeps its state somewhere in `req` object and checks it with `req.isAuthenticated` method.  
+
+The same approach, but with Koa.js, the state is kept in `this` context object.
+```
+/* Warning!
+   Don't copy this code!
+   It may be not idiomatic as it is written by non-experienced programmer.
+*/
+var koa = require('koa');
+var app = koa();
+
+function *isAuthenticated(next) {
+  this.isAuthenticated = true;
+  return yield next;
+}
+
+app.use(isAuthenticated);
+
+app.use(function *(){
+  if (!this.isAuthenticated)
+    return this.body = 'Failure, you are not authenticated.';
+  return this.body = 'Success, you are authenticated'
+});
+```
+Second approach, throw exception and process it the previous middleware.  
+Excerpt from Koa.js [examples](https://github.com/koajs/examples/blob/master/base-auth/app.js), middleware `auth` throws exception if the user is not authenticated:
+```javascript
+var koa = require('koa');
+var auth = require('koa-basic-auth');
+var app = module.exports = koa();
+
+// custom 401 handling
+
+app.use(function* (next){
+  try {
+    yield* next;
+  } catch (err) {
+    if (401 == err.status) {
+      this.status = 401;
+      this.body = 'cant haz that';
+    } else {
+      throw err;
+    }
+  }
+});
+
+// require auth
+
+app.use(auth({ name: 'tj', pass: 'tobi' }));
+
+// secret response
+
+app.use(function* (){
+  this.body = 'secret';
+});
+```
+
 ### Abstractions and Conventions
 
 Node.js is "close to the metal." It offers fewer and thinner abstractions.  
@@ -144,6 +259,93 @@ Conclusion:
 - ASP.NET offers many abstractions which may be great for large applications but seem bloated for simple tasks. Also programmer looses sense of control when everything is automated behind abstractions.
 - Node.js imposes very few conventions but offers great flexibility.
 
+### Simplicity
+
+To assess simplicity let's consider hello world examples of Node.js and ASP.NET.  
+
+Node.js project file structure:
+```sh
+.
+├── server.js
+└── package.json // Package (or project) description and dependencies.
+```
+
+Node.js, Express.js
+```javascript
+// server.js
+var express = require('express');
+var app = express();
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000); // Deploy a server on port 3000.
+```
+Node.js, Koa.js
+```javascript
+// server.js
+var koa = require('koa');
+var app = koa();
+
+app.use(function *(){
+  this.body = 'Hello World!';
+});
+
+app.listen(3000); // Deploy a server on port 3000.
+```
+Commands used to run samples:
+```sh
+cd hello-nodejs
+npm install
+node server.js
+```
+
+Now let's look at some corresponding examples for ASP.NET 5 Beta (vNext). We are considering the latest beta because Microsoft is striving to adopt strong sides of Node.js in their latest ASP.NET so it closely resembles Node.js.  
+
+All examples are taken from https://github.com/aspnet/home.
+
+"HelloWeb" sample, ASP.NET project file structure:
+```sh
+.
+├── Dockerfile
+├── HelloWeb.xproj
+├── project.json
+├── Properties
+│   └── launchSettings.json
+├── Startup.cs
+└── wwwroot
+    └── image.jpg
+```
+The main file:
+```csharp
+// Startup.cs
+using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Http;
+using Microsoft.Framework.Logging;
+
+namespace HelloWeb
+{
+    public class Startup
+    {
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole();
+            app.Run(async (context) => {
+              await context.Response.WriteAsync("Hello World!");
+            });
+        }
+    }
+}
+```
+
+Commands I've used to run HelloWeb sample.
+```sh
+cd HelloWeb
+dnvm upgrade -u
+dnu restore
+dnx . web
+```
 
 ### Performance
 
@@ -184,7 +386,7 @@ Some programmers are not happy with JavaScript being not robust, e.g. [see this]
 ### Learnability
 
 Learnability is defined by how easy it is for a newcomer to pick up the language.  
-Being dynamically typed, JavaScript is easier to pick up, but in Node.js to deliver high-quality code you eventually has to know Promises, generators and co-routines. New syntax sugar of upcoming EcmaScript standards like ES2015 and ES7 adds more ways to express the same meaning making non-recent code less readable.
+Being dynamically typed, JavaScript is easier to pick up, but in Node.js to deliver high-quality code you eventually has to know Promises, generators and co-routines. New syntax sugar of upcoming EcmaScript standards like ES2015 and ES7 adds more ways to express the same meaning making non-recent code less readable for newcomers.
 
 ### Ecosystem
 
