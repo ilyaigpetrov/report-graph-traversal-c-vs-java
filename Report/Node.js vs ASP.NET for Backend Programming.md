@@ -4,16 +4,19 @@ We will compare ASP.NET and Node.js for backend programming.
 
 ## Table of contents
 
-- [Comparing Apples to Oranges](#Comparing-Apples-to-Oranges)
-- [Forms](#forms)
-- [HTTP Authentication](#http-authentication)
-- [Custom HTTP Headers](#custom-http-headers)
-- [OAuth Signing](#oauth-signing)
-- [Proxies](#proxies)
-- [Unix Domain Sockets](#unix-domain-sockets)
-- [TLS/SSL Protocol](#tlsssl-protocol)
-- [Support for HAR 1.2](#support-for-har-12)
-- [**All Available Options**](#requestoptions-callback)
+- [Comparing Apples to Oranges](#comparing-apples-to-oranges)
+- [What is ASP.NET?](#what-is-aspnet)
+- [Processing Models](#processing-models)
+- [Programming Languages](#programming-languages)
+- [Support for Asynchronous Programming](#support-for-asynchronous-programming)
+- [Abstractions and Conventions](#abstractions-and-conventions)
+- [Simplicity](#simplicity)
+- [Performance](#performance)
+- [Reliability](#reliability)
+- [Learnability](#learnability)
+- [Ecosystem](#ecosystem)
+- [Conclusion](#conclusion)
+- [Materials Used](#materials-used)
 
 ### Comparing Apples to Oranges
 
@@ -233,9 +236,8 @@ app.use(function* (){
 });
 ```
 
-TODO: add ASP.NET async examples.
-
 #### Examples: Asynchronous Calls to HackerNews JSON API
+
 Popular [HackerNews site](news.ycombinator.com) has a [json api](https://github.com/HackerNews/API).  
 Shortly, it works in the following way:
 ```http
@@ -614,7 +616,7 @@ The followig table summarizes comparison.
 | Flexibility		     | +	 	 | -  
 
 
-### Some Materials Used
+### Materials Used
 [To Node.js Or Not To Node.js](http://www.haneycodes.net/to-node-js-or-not-to-node-js/)  
 [Is Node.js better than ASP.NET?](https://thomasbandt.com/is-nodejs-better-than-aspnet)  
 [The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
