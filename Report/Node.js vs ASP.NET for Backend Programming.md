@@ -45,36 +45,6 @@ So in this article we will assume that at least one of ASP.NET overhead framewor
 
 Sources: [asp.net](http://www.asp.net/get-started/websites).
 
-### Principles behind Node.js and C#/ASP.NET/ASP.NET MVC
-
-TO BE DONE: This chapter is just a draft, don't take it seriously.
-
-ASP.NET MVC embraces Single Responsibility Principle and I'm pretty sure it embraces the whole [SOLID](https://en.wikipedia.org/wiki/SOLID) set of principles of OOP.  
-
-To quote Eilon Lipton:
-> ...each of the components in the MVC framework is fairly small and self contained, with single responsibilities. This means that due to their small size you have building blocks that are easier to understand. It also means that you can replace or even alter the building blocks if they don't suit your needs.
-
-
-| Characterisitc     							| Node.js  	| ASP.NET
-| ----------------   								|:------:   	|:-------
-| SRP and SoC 									| +		 		| SOLID
-| Louse Coupling								| +		 		| DIP<br/>Dependence on Interfaces
-| Extensibility  									| Composition?				| Override of Classes<br/>Composition
-| Close to Metal 								| +		 		| --, abstract
-
-DIP -- Dependency Inversion Principle
-
-> Separation of Concerns (SoC) – is the process of breaking a computer program into distinct features that overlap in functionality as little as possible. A concern is any piece of interest or focus in a program. Typically, concerns are synonymous with features or behaviors.
-http://en.wikipedia.org/wiki/Separation_of_concerns
-
-> Single Responsibility Principle (SRP) – every object should have a single responsibility, and that all its services should be narrowly aligned with that responsibility. On some level Cohesion is considered as synonym for SRP.
-http://en.wikipedia.org/wiki/Single_responsibility_principle
-
-Sources:  
-[ASP.NET MVC Design Philosophy, Eilon Lipton, 2007](https://web.archive.org/web/20150627050706/http://weblogs.asp.net/leftslipper/asp-net-mvc-design-philosophy)  
-[The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
-
-
 ### Processing Models
 
 The main difference between Node.js and ASP.NET frameworks is their processing models.  
@@ -107,7 +77,7 @@ Sources:
 ASP.NET uses C# as its primary language.  
 Node.js uses JavaScript and all the languages that can be transpiled to it like CoffeeScript, Microsoft TypeScript and recent EcmaScript2015 (aka ES6).
 
-Without doubt C# is a more robust language than JavaScript.  
+Without doubt C# is a more powerful language than JavaScript.  
 C# offers strict type system and compile-time error checks and in JavaScript you may get it through Facebook Flow static type checker or Microsoft TypeScript.  
 C# has classical inheritance model, EcmaScript6 classes offer new syntax for the same prototypical inheritance (which is claimed to be not so powerful).  
 
@@ -295,7 +265,10 @@ namespace HelloWeb
       logger.LogInformation("Configuring...");
       
       app.Run(async (context) => {
-        logger.LogInformation("Has request!");
+        var path = context.Request.Path;
+        logger.LogInformation("Has request for "+path+"!");
+        if (!path.Equals("/"))
+          return;
 
         using (var client = new HttpClient())
         {
@@ -304,12 +277,14 @@ namespace HelloWeb
           client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
           HttpResponseMessage response = await client.GetAsync("/v0/topstories.json?print=pretty");
+          logger.LogInformation("Got first response.");
           if (response.IsSuccessStatusCode)
           {
             var arr = await response.Content.ReadAsAsync<dynamic>();
             var responseId = (String) arr[0];
             var itemUrl = String.Format("/v0/item/{0}.json?print=pretty", responseId);
             response = await client.GetAsync(itemUrl);
+            logger.LogInformation("Got second response.");
             if (response.IsSuccessStatusCode)
             {
               var dict = await response.Content.ReadAsAsync<dynamic>();
@@ -327,12 +302,13 @@ namespace HelloWeb
   }
 }
 ```
-Corresponding Node.js server script:
+Corresponding bare bone Node.js server script:
 ```javascript
+// server.js
 var http = require('http');
 var https = require('https');
 
-// Biolerplate code to handle get requests.
+// Biolerplate code to produce get requests.
 function httpsGet(url, handler, errorHandler) {
   https.get(
     url,
@@ -385,6 +361,53 @@ var server = http.createServer(
         );
       },
       errorHandler
+    );
+  }
+);
+
+var port = 5001;
+server.listen(port);
+console.log('Server running at http://localhost:'+port);
+```
+To get rid of [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code) you can use either [request](https://github.com/request/request) or visionmedia [superagent](https://github.com/visionmedia/superagent).  
+To counter callback hell let's use `co@tj` library.  
+After all these corrections:
+```
+// server.js
+// To run: `node --harmony server.js`
+var http = require('http');
+
+var request = require('superagent');
+var co = require('co');
+
+var server = http.createServer(
+  function (req, res) {  
+    console.log('Has request for '+req.url+'!');    
+    if (req.url !== '/')
+      return res.end();
+ 
+    co(function *() {
+      var baseAddress = 'https://hacker-news.firebaseio.com';
+      var topUrl = baseAddress+'/v0/topstories.json?print=pretty';
+      var httpRes = yield request.get(topUrl);
+      console.log('Got first response.');
+      if (httpRes.ok) {
+        var arr = httpRes.body;
+        var responseId = arr[0];
+        var itemUrl = '/v0/item/'+ responseId +'.json?print=pretty';
+        var httpRes = yield request.get(baseAddress + itemUrl);
+        console.log('Got second response.');
+        if (httpRes.ok) {
+          var obj = httpRes.body;
+          var title = obj['title'];
+          return res.end(title);
+        }
+      }
+    }).catch(
+      function (err) {
+        console.log('Error:'+e);
+        return res.end('Service is not available!');
+      }
     );
   }
 );
@@ -576,4 +599,40 @@ The followig table summarizes comparison.
 ### Some Materials Used
 [To Node.js Or Not To Node.js](http://www.haneycodes.net/to-node-js-or-not-to-node-js/)  
 [Is Node.js better than ASP.NET?](https://thomasbandt.com/is-nodejs-better-than-aspnet)  
+[The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
+
+The End
+---
+
+---
+
+## Marginalia
+
+### Principles behind Node.js and C#/ASP.NET/ASP.NET MVC
+
+TO BE DONE: This chapter is just a draft, don't take it seriously.
+
+ASP.NET MVC embraces Single Responsibility Principle and I'm pretty sure it embraces the whole [SOLID](https://en.wikipedia.org/wiki/SOLID) set of principles of OOP.  
+
+To quote Eilon Lipton:
+> ...each of the components in the MVC framework is fairly small and self contained, with single responsibilities. This means that due to their small size you have building blocks that are easier to understand. It also means that you can replace or even alter the building blocks if they don't suit your needs.
+
+
+| Characterisitc     							| Node.js  	| ASP.NET
+| ----------------   								|:------:   	|:-------
+| SRP and SoC 									| +		 		| SOLID
+| Louse Coupling								| +		 		| DIP<br/>Dependence on Interfaces
+| Extensibility  									| Composition?				| Override of Classes<br/>Composition
+| Close to Metal 								| +		 		| --, abstract
+
+DIP -- Dependency Inversion Principle
+
+> Separation of Concerns (SoC) – is the process of breaking a computer program into distinct features that overlap in functionality as little as possible. A concern is any piece of interest or focus in a program. Typically, concerns are synonymous with features or behaviors.
+http://en.wikipedia.org/wiki/Separation_of_concerns
+
+> Single Responsibility Principle (SRP) – every object should have a single responsibility, and that all its services should be narrowly aligned with that responsibility. On some level Cohesion is considered as synonym for SRP.
+http://en.wikipedia.org/wiki/Single_responsibility_principle
+
+Sources:  
+[ASP.NET MVC Design Philosophy, Eilon Lipton, 2007](https://web.archive.org/web/20150627050706/http://weblogs.asp.net/leftslipper/asp-net-mvc-design-philosophy)  
 [The Node.js Philosophy](http://blog.nodejitsu.com/the-nodejs-philosophy/)
