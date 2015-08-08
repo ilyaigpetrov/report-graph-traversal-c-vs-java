@@ -2,6 +2,19 @@
 
 We will compare ASP.NET and Node.js for backend programming.
 
+## Table of contents
+
+- [Comparing Apples to Oranges](#Comparing-Apples-to-Oranges)
+- [Forms](#forms)
+- [HTTP Authentication](#http-authentication)
+- [Custom HTTP Headers](#custom-http-headers)
+- [OAuth Signing](#oauth-signing)
+- [Proxies](#proxies)
+- [Unix Domain Sockets](#unix-domain-sockets)
+- [TLS/SSL Protocol](#tlsssl-protocol)
+- [Support for HAR 1.2](#support-for-har-12)
+- [**All Available Options**](#requestoptions-callback)
+
 ### Comparing Apples to Oranges
 
 To compare two distinct concepts we need an aim.  
@@ -12,8 +25,10 @@ In this report we will narrow down our comparison to:
 1. Support for asynchronous programming.
 2. Robustness of the languages.
 3. Simplicity of the code and deployment.
-
-TODO: review.
+4. We will often be comparing bleeding edge ASP.NET 5 Beta (vNext) and Node.js with `harmony` flag.  
+The reason for that is that Microsoft is striving to adopt strong sides of Node.js in their latest ASP.NET so it closely resembles and mimics Node.js.  
+ASP.NET 5 Beta is a striking competitor within .NET and asynchronous programming though it is not production ready yet.  
+The current stable ASP.NET 4.5 (or ASP.NET MVC 5) and Node.js are so different that it's hard to compare them but we will say a few words on it too.
 
 ### What is ASP.NET?
 
@@ -21,7 +36,7 @@ ASP.NET  is a web application framework by Microsoft.
 ASP.NET offers common functionality for others frameworks on top of it:  
 ASP.NET Web Pages, ASP.NET Web Forms, ASP.NET MVC, etc.  
 For example, ASP.NET includes such common functionality as facilities for managing requests, handling sessions and a login security model based around membership.  
-These frameworks has different goals, may be used together and will be merged into ASP.NET 5 (ASP.NET vNext).
+These frameworks has different goals, may be used together and will be merged into ASP.NET vNext.
 
 The following diagrams present ASP.NET architecture in relation to other frameworks.
 
@@ -246,7 +261,7 @@ GET https://hacker-news.firebaseio.com/v0/item/10023413.json
 In these examples we will be retrieving top story title from HN API.  
 Here is how it may be done in ASP.NET 5:
 ```csharp
-// Startup.cs
+// Startup.cs, 54 lines
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.Logging;
@@ -372,8 +387,8 @@ console.log('Server running at http://localhost:'+port);
 To get rid of [boilerplate code](https://en.wikipedia.org/wiki/Boilerplate_code) you can use either [request](https://github.com/request/request) or visionmedia [superagent](https://github.com/visionmedia/superagent).  
 To counter callback hell let's use `co@tj` library.  
 After all these corrections:
-```
-// server.js
+```javascript
+// server.js, 40 lines
 // To run: `node --harmony server.js`
 var http = require('http');
 
@@ -419,7 +434,7 @@ console.log('Server running at http://localhost:'+port);
 
 ### Abstractions and Conventions
 
-Node.js is "close to the metal." It offers fewer and thinner abstractions.  
+Node.js is "close to the metal". It offers fewer and thinner abstractions.  
 So you don't have to configure their overwhelming number of parameters, but instead you are faced with writing the code out of multitude small components.  
 This approach gives you flexibility of tailoring the code up to the solution.  
 It may be expected that in place of configuration the programmer is supposed to write much more boilerplate code.  
@@ -427,7 +442,9 @@ It's not the case with Node.js as it offers all needed facilities from native or
 Node.js programmer is free in choice of programming libraries, has a uniform way of combining them as middlewares, may easily divert from MVC in favor of any other architectural pattern and controls options that may be concealed by abstractions in other frameworks.  
 Node.js imposes only a few conventions: asynchronous programming, most servers and frameworks use middlewares (Express.js, Koa.js).
 
-On the other hand ASP.NET MVC is quite different.  
+Like Node.js ASP.NET 5 also proposes middlewares and low-level "close to the metal" control. 
+
+But on the other hand ASP.NET MVC 5 is quite different.  
 It offers abstractions but doesn't imply much configuration or boilerplate code.  
 Instead it leverages convection other configuration principle.  
 It means it has conventions which are when followed make your code concise and readable.  
@@ -436,9 +453,10 @@ So, yes, ASP.NET imposes upon you its view of things. And if you want to divert 
 Now, the question is whether these conventions are good and apt for your tasks, will they make you happy with your task so you don't have to configure everything from scratch.
 
 Conclusion:
-- ASP.NET exerts many conventions with which everything works out of the box, but tailoring code for your needs requires much configuration.
-- ASP.NET offers many abstractions which may be great for large applications but seem bloated for simple tasks. Also programmer looses sense of control when everything is automated behind abstractions.
-- Node.js imposes very few conventions but offers great flexibility.
+- ASP.NET MVC exerts many conventions with which everything works out of the box, but tailoring code for your needs requires more configuration.
+- ASP.NET MVC offers many abstractions which may be great for large applications but seem bloated for simple tasks. Also programmer looses sense of control when everything is automated behind abstractions.
+- Node.js and ASP.NET 5 impose very few conventions but offer great flexibility.
+
 
 ### Simplicity
 
@@ -482,7 +500,7 @@ npm install
 node server.js
 ```
 
-Now let's look at some corresponding examples for ASP.NET 5 Beta (vNext). We are considering the latest beta because Microsoft is striving to adopt strong sides of Node.js in their latest ASP.NET so it closely resembles Node.js.  
+Now let's look at some corresponding examples for ASP.NET 5 Beta (vNext).  
 
 All examples are taken from https://github.com/aspnet/home and _modified_ for comparison.
 
